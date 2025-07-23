@@ -7,7 +7,7 @@ outputs:
   - {name: predictions_csv, type: String}
 implementation:
   container:
-    image: samyukthagudiya17/predict_student:latest
+    image: docker.io/samyukthagudiya17/predict_student:latest
     command:
       - python
       - predict_student.py
