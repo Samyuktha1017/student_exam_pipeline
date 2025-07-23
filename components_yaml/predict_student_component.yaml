@@ -1,0 +1,20 @@
+name: Predict Student Outcome
+description: Uses a trained model to predict student exam outcomes.
+inputs:
+  - {name: model_input, type: String}
+  - {name: test_data_csv, type: String}
+outputs:
+  - {name: predictions_csv, type: String}
+implementation:
+  container:
+    image: samyukthagudiya17/predict_student:latest
+    command:
+      - python
+      - predict_student.py
+    args:
+      - --model_input
+      - {inputValue: model_input}
+      - --test_data_csv
+      - {inputValue: test_data_csv}
+      - --predictions_csv
+      - {outputPath: predictions_csv}

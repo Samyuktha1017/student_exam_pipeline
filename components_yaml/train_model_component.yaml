@@ -1,0 +1,20 @@
+name: Train Model
+description: Trains a classification model on student features.
+inputs:
+  - {name: features_csv, type: String}
+  - {name: label_column, type: String}
+outputs:
+  - {name: model_output, type: String}
+implementation:
+  container:
+    image: samyukthagudiya17/train_model:latest
+    command:
+      - python
+      - train_model.py
+    args:
+      - --features_csv
+      - {inputValue: features_csv}
+      - --label_column
+      - {inputValue: label_column}
+      - --model_output
+      - {outputPath: model_output}
