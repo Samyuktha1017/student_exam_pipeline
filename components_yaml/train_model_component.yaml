@@ -7,7 +7,7 @@ outputs:
   - {name: model_output, type: String}
 implementation:
   container:
-    image: samyukthagudiya17/train_model:latest
+    image: docker.io/samyukthagudiya17/train_model:latest
     command:
       - python
       - train_model.py
