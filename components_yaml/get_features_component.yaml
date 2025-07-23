@@ -8,7 +8,7 @@ outputs:
   - {name: output_path, type: String}
 implementation:
   container:
-    image: samyukthagudiya17/get_features:latest
+    image: docker.io/samyukthagudiya17/get_features:latest
     command:
       - python
       - get_features.py
