@@ -1,21 +1,18 @@
-name: Train Model
-description: Trains a student exam prediction model and saves it.
+name: Train Student Model
+description: Trains a model on student features and saves it as a .pkl file.
 inputs:
-  - name: features_path
-    type: String
-  - name: target_column
-    type: String
+  - {name: features_path, type: String}
+  - {name: model_output_path, type: String}
 outputs:
-  - name: model_path
-    type: String
+  - {name: model_output_path, type: String}
 implementation:
   container:
     image: docker.io/samyukthagudiya17/train_model:latest
-    command: ["python", "train_model.py"]
+    command:
+      - python
+      - train_model.py
     args:
-      - "--features_path"
+      - --features_path
       - {inputValue: features_path}
-      - "--target_column"
-      - {inputValue: target_column}
-      - "--model_path"
-      - {outputPath: model_path}
+      - --model_output_path
+      - {outputPath: model_output_path}
