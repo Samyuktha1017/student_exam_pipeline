@@ -1,20 +1,21 @@
-name: Predict Student Outcome
-description: Uses a trained model to predict student exam outcomes.
+name: Predict Student Pass
+description: Uses trained model to predict if students will pass.
 inputs:
-  - {name: model_input, type: String}
-  - {name: test_data_csv, type: String}
+  - name: model_path
+    type: String
+  - name: features_path
+    type: String
 outputs:
-  - {name: predictions_csv, type: String}
+  - name: predictions_path
+    type: String
 implementation:
   container:
     image: docker.io/samyukthagudiya17/predict_student:latest
-    command:
-      - python
-      - predict_student.py
+    command: ["python", "predict_student.py"]
     args:
-      - --model_input
-      - {inputValue: model_input}
-      - --test_data_csv
-      - {inputValue: test_data_csv}
-      - --predictions_csv
-      - {outputPath: predictions_csv}
+      - "--model_path"
+      - {inputValue: model_path}
+      - "--features_path"
+      - {inputValue: features_path}
+      - "--predictions_path"
+      - {outputPath: predictions_path}
