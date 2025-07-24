@@ -1,21 +1,20 @@
-name: Predict Student Pass
-description: Uses trained model to predict if students will pass.
+name: Predict Student Performance
+description: Loads a trained model and makes predictions on student data.
 inputs:
-  - name: model_path
-    type: String
-  - name: features_path
-    type: String
+  - {name: features_path, type: String}
+  - {name: model_path, type: String}
 outputs:
-  - name: predictions_path
-    type: String
+  - {name: predictions_path, type: String}
 implementation:
   container:
     image: docker.io/samyukthagudiya17/predict_student:latest
-    command: ["python", "predict_student.py"]
+    command:
+      - python
+      - predict_student.py
     args:
-      - "--model_path"
-      - {inputValue: model_path}
-      - "--features_path"
+      - --features_path
       - {inputValue: features_path}
-      - "--predictions_path"
+      - --model_path
+      - {inputValue: model_path}
+      - --predictions_path
       - {outputPath: predictions_path}
