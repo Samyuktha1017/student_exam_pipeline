@@ -1,20 +1,21 @@
 name: Train Model
-description: Trains a classification model on student features.
+description: Trains a student exam prediction model and saves it.
 inputs:
-  - {name: features_csv, type: String}
-  - {name: label_column, type: String}
+  - name: features_path
+    type: String
+  - name: target_column
+    type: String
 outputs:
-  - {name: model_output, type: String}
+  - name: model_path
+    type: String
 implementation:
   container:
     image: docker.io/samyukthagudiya17/train_model:latest
-    command:
-      - python
-      - train_model.py
+    command: ["python", "train_model.py"]
     args:
-      - --features_csv
-      - {inputValue: features_csv}
-      - --label_column
-      - {inputValue: label_column}
-      - --model_output
-      - {outputPath: model_output}
+      - "--features_path"
+      - {inputValue: features_path}
+      - "--target_column"
+      - {inputValue: target_column}
+      - "--model_path"
+      - {outputPath: model_path}
