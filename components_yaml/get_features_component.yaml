@@ -1,25 +1,21 @@
 name: Get Student Features
 description: Extracts student features from Feast and outputs a CSV.
 inputs:
-  - name: entity_csv
-    type: String
-  - name: feature_view_name
-    type: String
-  - name: repo_path
-    type: String
+  - {name: entity_csv, type: String, default: 'student_data.csv'}
+  - {name: feature_view_name, type: String, default: 'student_feature_view'}
+  - {name: repo_path, type: String, default: '/mnt/feature_repo'}
 outputs:
-  - name: output_path
-    type: String
+  - {name: features_csv, type: CSV}
 implementation:
   container:
-    image: docker.io/samyukthagudiya17/get_features:latest
-    command: ["python", "get_features.py"]
-    args:
-      - "--entity_csv"
-      - {inputValue: entity_csv}
-      - "--feature_view_name"
-      - {inputValue: feature_view_name}
-      - "--repo_path"
-      - {inputValue: repo_path}
-      - "--output_path"
-      - {outputPath: output_path}
+    image: samyukthagudiya17/get_features:latest
+    command: [python, /app/get_features.py]
+    args: [
+      --entity_csv, {inputValue: entity_csv},
+      --feature_view_name, {inputValue: feature_view_name},
+      --repo_path, {inputValue: repo_path},
+      --output_path, {outputPath: features_csv}
+    ]
+    volumeMounts:
+      - {name: feast-vol, mountPath: /mnt/feature_repo}
+      - {name: output-vol, mountPath: /mnt/output}
