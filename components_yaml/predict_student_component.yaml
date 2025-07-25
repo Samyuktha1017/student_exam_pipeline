@@ -1,20 +1,18 @@
-name: Predict Student Performance
-description: Loads a trained model and makes predictions on student data.
+name: Predict Student Outcome
+description: Predicts exam pass/fail using trained model.
 inputs:
-  - {name: features_path, type: String}
-  - {name: model_path, type: String}
+  - {name: model_input, type: Model}
+  - {name: test_data_csv, type: CSV}
 outputs:
-  - {name: predictions_path, type: String}
+  - {name: predictions_csv, type: CSV}
 implementation:
   container:
-    image: docker.io/samyukthagudiya17/predict_student:latest
-    command:
-      - python
-      - predict_student.py
-    args:
-      - --features_path
-      - {inputValue: features_path}
-      - --model_path
-      - {inputValue: model_path}
-      - --predictions_path
-      - {outputPath: predictions_path}
+    image: samyukthagudiya17/predict_student:latest
+    command: [python, /app/predict_student.py]
+    args: [
+      --model_input, {inputPath: model_input},
+      --test_data_csv, {inputPath: test_data_csv},
+      --predictions_csv, {outputPath: predictions_csv}
+    ]
+    volumeMounts:
+      - {name: output-vol, mountPath: /mnt/output}
